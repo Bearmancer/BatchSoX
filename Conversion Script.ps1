@@ -5,7 +5,6 @@ New-Item -ItemType Directory -Force -Path ".\converted"
 
 foreach ($file in $flac_files) {
     $flacInfo = & $sox --i $file.FullName 2>&1
-    Write-Output $flacInfo
 
     if ($flacInfo -match "Precision\s*:\s*24-bit" -and ($flacInfo -match "Sample Rate\s*:\s*96000" -or $flacInfo -match "Sample Rate\s*:\s*192000")) {
         & $sox -S $file.FullName -R -G -b 16 "converted\$($file.Name)" rate -v -L 48000 dither
